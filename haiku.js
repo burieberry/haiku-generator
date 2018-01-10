@@ -5,9 +5,11 @@ function readCmudictFile(file) {
   return fs.readFileSync(file, 'utf8');
 }
 
+const syllablesArr = new Array(10);
+syllablesArr.fill([]);
+
 function formatData(data) {
   const lines = data.split('\n');
-  let formatted = [];
 
   lines.forEach(line => {
     const word = line.split('  ')[0];
@@ -15,20 +17,16 @@ function formatData(data) {
 
     if (phoneme.match(/\d/)) {
       const syllables = phoneme.match(/\d/g).length;
-      formatted.push({ word, phoneme, syllables });
+      const bucket = syllables % 10;
+      syllablesArr[bucket].push(word);
     }
   });
 
-  // const has5syllables = function(obj) {
-  //   return obj.syllables === 5;
-  // }
-  // console.log(arr.find(has5syllables))
-
-  return formatted;
+  return syllablesArr;
 }
 
 
-function createHaiku(arr, structure) {
+function createHaiku(structure) {
   console.log('haiku structure will be ' + structure);
 }
 
